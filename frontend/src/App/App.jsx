@@ -1,30 +1,45 @@
-import { useEffect, useReducer } from "react";
+import { useEffect, useState } from "react";
 import ApartmentsList from "../components/ApartmentsList";
 import "./App.css";
-import reducer from "../reducer";
-import stateContext from '../context';
-
-const initialState = {
-  apartments: [],
-};
+import Pagination from "../components/Pagination";
 
 function App() {
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const [apartments, setApartments] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [apartmentsPerPage] = useState(8);
 
-  const getAparments = () => {
-    fetch("/api/apartments")
-      .then((res) => res.json())
-      .then((data) => dispatch({ type: "GET_APARTMENTS", payload: data }));
-  };
   useEffect(() => {
-    getAparments();
+    fetch(`http://localhost:4000/api/apartments`, {
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => setApartments(data));
   }, []);
+
+  const lastApartmentsIndex = currentPage * apartmentsPerPage;
+  const firstApartmentsindex = lastApartmentsIndex - apartmentsPerPage;
+  const currentApartment = apartments.slice(
+    firstApartmentsindex,
+    lastApartmentsIndex
+  );
+
+  const paginate = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
   return (
-    <stateContext.Provider value={{ state, dispatch }}>
-    <div className="App">
-      <ApartmentsList />
+    <div className="container mt-5">
+      <h1 className="text-primary"s>Квартиры</h1>
+      <ApartmentsList apartments={currentApartment} />
+      <Pagination
+        apartmentsPerPage={apartmentsPerPage}
+        totalApartments={apartments.length}
+        paginate={paginate}
+      />
     </div>
-    </stateContext.Provider>
   );
 }
 

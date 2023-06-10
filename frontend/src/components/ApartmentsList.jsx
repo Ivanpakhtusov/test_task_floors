@@ -1,16 +1,14 @@
-import React, { useContext } from 'react';
-import ApartmentItem from './ApartmentItem';
-import stateContext from '../context';
+import React from "react";
+import ApartmentItem from "./ApartmentItem";
 
-function ApartmentsList() {
-    const { state } = useContext(stateContext);
-    return (
-        <div style={{ display: 'flex' }}>
-      {state.apartments.map((apartment) => (
+function ApartmentsList({ apartments }) {
+  return (
+    <div style={{ display: "flex" }}>
+      {apartments.map((apartment) => (
         <ApartmentItem key={apartment.id} apartment={apartment} />
       ))}
     </div>
-    );
+  );
 }
 
 export default ApartmentsList;

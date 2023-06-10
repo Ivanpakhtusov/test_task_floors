@@ -1,5 +1,6 @@
 require("dotenv").config();
 const express = require("express");
+const config = require("./config/serverConfig");
 
 const app = express();
 
@@ -7,7 +8,7 @@ const PORT = 4000;
 
 const apiRouter = require("./api/api.routes");
 
-app.use(express.json());
+config(app);
 
 app.use("/api", apiRouter);
 
