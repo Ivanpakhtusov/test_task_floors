@@ -36,3 +36,42 @@
     transform: rotate(360deg);
   }
 }
+.ReactModal__Overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.ReactModal__Content {
+  position: relative;
+  margin: auto;
+  padding: 2rem;
+  max-width: 600px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+}
+
+.ReactModal__Content h2 {
+  margin-top: 0;
+}
+
+.ReactModal__Content p {
+  margin-bottom: 1rem;
+}
+
+.ReactModal__Content button {
+  display: block;
+  margin: auto;
+}
+.photo {
+  width: 250px;
+  display: block;
+  margin: auto;
+}

@@ -7,6 +7,7 @@ function App() {
   const [apartments, setApartments] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [apartmentsPerPage] = useState(8);
+  
 
   useEffect(() => {
     fetch(`http://localhost:4000/api/apartments`, {
@@ -18,6 +19,7 @@ function App() {
       .then((res) => res.json())
       .then((data) => setApartments(data));
   }, []);
+
 
   const lastApartmentsIndex = currentPage * apartmentsPerPage;
   const firstApartmentsindex = lastApartmentsIndex - apartmentsPerPage;
