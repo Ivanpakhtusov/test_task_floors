@@ -6,7 +6,7 @@ function Pagination({ apartmentsPerPage, totalApartments, paginate }) {
     pageNumbers.push(i);
   }
   return (
-    <div>
+    <div className="pagination">
       <ul className="pagination">
         {pageNumbers.map((number) => (
           <li className="pageNum" key={number}>

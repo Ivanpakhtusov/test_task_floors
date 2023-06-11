@@ -7,7 +7,7 @@ function App() {
   const [apartments, setApartments] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [apartmentsPerPage] = useState(8);
-  const [sortBy, setSortBy] = useState("price");
+  const [sortBy, setSortBy] = useState("default");
   const [sortOrder, setSortOrder] = useState("asc");
 
   useEffect(() => {
@@ -22,12 +22,16 @@ function App() {
   }, []);
 
   const sortedApartments = apartments.sort((a, b) => {
-    const sortValue =
-      sortBy === "price"
-        ? a.price - b.price
-        : "rooms"
-        ? a.rooms - b.rooms
-        : a.area_total - b.area_total;
+    let sortValue;
+    if (sortBy === "default") {
+      return a.id - b.id;
+    } else if (sortBy === "price") {
+      sortValue = a.price - b.price;
+    } else if (sortBy === "area") {
+      sortValue = a.area_total - b.area_total;
+    } else if (sortBy === "rooms") {
+      sortValue = a.rooms - b.rooms;
+    }
     return sortOrder === "asc" ? sortValue : -sortValue;
   });
   const lastApartmentsIndex = currentPage * apartmentsPerPage;
@@ -44,15 +48,18 @@ function App() {
   return (
     <div className="container mt-5">
       <h1 className="text-primary">Квартиры</h1>
-      <select value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
-        <option value="price">Цена</option>
-        <option value="area">Площадь</option>
-        <option value="rooms">Кол-во комнат</option>
-      </select>
-      <select value={sortOrder} onChange={(e) => setSortOrder(e.target.value)}>
-        <option value="asc">По возрастанию</option>
-        <option value="desc">По убыванию</option>
-      </select>
+      <div className="d-flex mb-3">
+        <select value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
+          <option value="default">По умолчанию</option>
+          <option value="price">Цена</option>
+          <option value="area">Площадь</option>
+          <option value="rooms">Кол-во комнат</option>
+        </select>
+        <select value={sortOrder} onChange={(e) => setSortOrder(e.target.value)}>
+          <option value="asc">По возрастанию</option>
+          <option value="desc">По убыванию</option>
+        </select>
+      </div>
       <ApartmentsList apartments={currentApartment} />
       <Pagination
         apartmentsPerPage={apartmentsPerPage}
