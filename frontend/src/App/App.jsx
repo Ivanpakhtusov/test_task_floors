@@ -7,7 +7,8 @@ function App() {
   const [apartments, setApartments] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [apartmentsPerPage] = useState(8);
-  
+  const [sortBy, setSortBy] = useState("price");
+  const [sortOrder, setSortOrder] = useState("asc");
 
   useEffect(() => {
     fetch(`http://localhost:4000/api/apartments`, {
@@ -20,10 +21,18 @@ function App() {
       .then((data) => setApartments(data));
   }, []);
 
-
+  const sortedApartments = apartments.sort((a, b) => {
+    const sortValue =
+      sortBy === "price"
+        ? a.price - b.price
+        : "rooms"
+        ? a.rooms - b.rooms
+        : a.area_total - b.area_total;
+    return sortOrder === "asc" ? sortValue : -sortValue;
+  });
   const lastApartmentsIndex = currentPage * apartmentsPerPage;
   const firstApartmentsindex = lastApartmentsIndex - apartmentsPerPage;
-  const currentApartment = apartments.slice(
+  const currentApartment = sortedApartments.slice(
     firstApartmentsindex,
     lastApartmentsIndex
   );
@@ -34,7 +43,16 @@ function App() {
 
   return (
     <div className="container mt-5">
-      <h1 className="text-primary"s>Квартиры</h1>
+      <h1 className="text-primary">Квартиры</h1>
+      <select value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
+        <option value="price">Цена</option>
+        <option value="area">Площадь</option>
+        <option value="rooms">Кол-во комнат</option>
+      </select>
+      <select value={sortOrder} onChange={(e) => setSortOrder(e.target.value)}>
+        <option value="asc">По возрастанию</option>
+        <option value="desc">По убыванию</option>
+      </select>
       <ApartmentsList apartments={currentApartment} />
       <Pagination
         apartmentsPerPage={apartmentsPerPage}
