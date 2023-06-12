@@ -8,7 +8,11 @@ function ApartmentItem({ apartment }) {
   return (
     <>
       <div className="card" style={{ margin: "5px" }}>
-        <img src={apartment.layout_image} alt="apartment_img" />
+        <img
+          src={apartment.layout_image}
+          alt="apartment_img"
+          className="image"
+        />
         <div className="card-body">
           <p className="card-text">{apartment.price}₽</p>
           <p className="card-text">{apartment.area_total}м²</p>

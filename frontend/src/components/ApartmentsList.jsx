@@ -4,7 +4,7 @@ import ApartmentItem from "./ApartmentItem";
 function ApartmentsList({ apartments, handleOpenModal }) {
   
   return (
-    <div style={{ display: "flex" }}>
+    <div className="cardlist" style={{ display: "flex" }}>
       {apartments.map((apartment) => (
         <ApartmentItem
           key={apartment.id}
